@@ -14,7 +14,10 @@ def main():
       "Horizontal Bar plot",
       "Scatter Plot",
       "Histogram",
-      "Pie Chart"
+      "Pie Chart",
+      "Two Subplots",
+      "Four Subplots",
+      "Four Axes"
     ]
   )
   if page == "HomePage":
@@ -37,6 +40,16 @@ def main():
   elif page == "Pie Chart":
     st.header("Views and days pie chart")
     pie_chart()
+  elif page == "Two Subplots":
+    st.header("Two Subplots")
+    two_subplots()
+  elif page == "Four Subplots":
+    st.header("Four Subplots")
+    Four_subplots()
+  elif page == "Four Axes":
+    st.header("Four Axes")
+    Four_Axes()
+
 
 
 
