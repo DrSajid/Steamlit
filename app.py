@@ -1,14 +1,8 @@
-import pandas as pd
+
 import streamlit as st
-import matplotlib.pyplot as plt
-
-@st.cache_data
-def load_data():
-  df = pd.read_csv("../data/ted.csv")
-  return df
 
 
-df = load_data()
+from myplots import *
 
 
 def main():
@@ -18,7 +12,9 @@ def main():
       "HomePage",
       "BarPlot",
       "Horizontal Bar plot",
-      "Scatter Plot"
+      "Scatter Plot",
+      "Histogram",
+      "Pie Chart"
     ]
   )
   if page == "HomePage":
@@ -35,46 +31,15 @@ def main():
     horizontal_bar()
   elif page == "Scatter Plot":
     visualize_scatter()
+  elif page == "Histogram":
+    st.header("Languages Histogram")
+    histogram()
+  elif page == "Pie Chart":
+    st.header("Views and days pie chart")
+    pie_chart()
 
 
 
-def bar_chart():
-  fig = plt.figure(figsize=(12,5))
-  plt.xticks(rotation=70)
-  bar_data = df.sort_values(by='views', ascending=False)
-  bar_data = bar_data.head(20)
-  plt.ticklabel_format(style="plain")
-  plt.bar(bar_data['event'], bar_data['views'])
-  plt.xlabel("Event")
-  plt.ylabel("Views")
-  plt.title("Events & View plot")
-  st.pyplot(fig)
-
-
-def horizontal_bar():
-  fig = plt.figure(figsize=(12,5))
-  plt.xticks(rotation=70)
-  bar_data = df.sort_values(by='views', ascending=False)
-  bar_data = bar_data.head(20)
-  plt.ticklabel_format(style="plain")
-  plt.barh(bar_data['event'], bar_data['views'])
-  plt.ylabel("Event")
-  plt.xlabel("Views")
-  plt.title("Events & View plot")
-  st.pyplot(fig)
-
-def visualize_scatter():
-  fig = plt.figure(figsize=[10,8])
-  plt.scatter(
-    x = df["comments"],
-    y=df["views"],
-    marker='*',
-    s=df['comments']/20,
-    c=df['languages'],
-  )
-  plt.xlabel("comments")
-  plt.ylabel('Views')
-  st.pyplot(fig)
 
 
 if __name__ == "__main__":
