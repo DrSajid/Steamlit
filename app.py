@@ -17,7 +17,8 @@ def main():
     [
       "HomePage",
       "BarPlot",
-      "Horizontal Bar plot"
+      "Horizontal Bar plot",
+      "Scatter Plot"
     ]
   )
   if page == "HomePage":
@@ -32,6 +33,8 @@ def main():
     bar_chart()
   elif page == "Horizontal Bar plot":
     horizontal_bar()
+  elif page == "Scatter Plot":
+    visualize_scatter()
 
 
 
@@ -58,6 +61,19 @@ def horizontal_bar():
   plt.ylabel("Event")
   plt.xlabel("Views")
   plt.title("Events & View plot")
+  st.pyplot(fig)
+
+def visualize_scatter():
+  fig = plt.figure(figsize=[10,8])
+  plt.scatter(
+    x = df["comments"],
+    y=df["views"],
+    marker='*',
+    s=df['comments']/20,
+    c=df['languages'],
+  )
+  plt.xlabel("comments")
+  plt.ylabel('Views')
   st.pyplot(fig)
 
 
