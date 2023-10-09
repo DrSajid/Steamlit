@@ -1,39 +1,32 @@
-import pandas as pd
 import streamlit as st
-import matplotlib.pyplot as plt
-import seaborn as sns
 
-
-sns.set_palette("deep")
-sns.set_style("darkgrid")
-
-
-@st.cache_data
-def load_data():
-    df = pd.read_csv("../../data/donors/donor.csv")
-    return df
-
-
-df = load_data()
+from dataload import *
+from myplots import *
 
 
 def main():
-    page = st.sidebar.selectbox("Select a page on the left", ["data", "Count Plot"])
+    page = st.sidebar.selectbox(
+        "Select a page on the left",
+        ["data", "Count Plot", "Vilon & Strip Plot", "Bar Plot", "line Plot", "Figure and Axes"],
+    )
     if page == "Count Plot":
         st.header("Count Plot")
         count_plot()
-    if page == "data":
+    elif page == "data":
         st.header("Showing the data")
-        st.write(df.head(10))
-
-
-def count_plot():
-    fig = plt.figure(figsize=(8, 6))
-    plt.title("Prefix Countplot")
-    plt.xticks(rotation=60, fontsize=12)
-    sns.countplot(x="teacher_prefix", hue="project_is_approved", data=df)
-    st.pyplot(fig)
-
+        show_data()
+    elif page == "Vilon & Strip Plot":
+        st.header("Vilon & Strip Plot")
+        violin_strip()
+    elif page == "Bar Plot":
+        st.header("Bar Plot")
+        barplot()
+    elif page == "line Plot":
+        st.header("Line Plot")
+        linePlot()
+    elif page == "Figure and Axes":
+        st.header("Figure and Axes")
+        FigureAxes()
 
 if __name__ == "__main__":
     main()
