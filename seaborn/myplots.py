@@ -102,5 +102,41 @@ def linePlot():
     st.pyplot(fig)
 
 
+def Subplots():
+    dff = (
+        df.groupby("school_state")["teacher_number_of_previously_posted_projects"]
+        .sum()
+        .sort_values(ascending=True)
+        .reset_index()
+        .head(15)
+    )
+    fig = plt.figure(figsize=(15, 8))
+    plt.subplot(1, 2, 1)
+    sns.barplot(
+        x="school_state", y="teacher_number_of_previously_posted_projects", data=dff
+    )
+
+    plt.subplot(1, 2, 2)
+    sns.countplot(x="teacher_prefix", hue="project_is_approved", data=df)
+    st.pyplot(fig)
+
+
 def FigureAxes():
-    pass
+    dff = (
+        df.groupby("school_state")["teacher_number_of_previously_posted_projects"]
+        .sum()
+        .sort_values(ascending=True)
+        .reset_index()
+        .head(15)
+    )
+    fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(15, 8))
+
+    sns.barplot(
+        x="school_state",
+        y="teacher_number_of_previously_posted_projects",
+        data=dff,
+        ax=ax[0],
+    )
+
+    sns.countplot(x="teacher_prefix", hue="project_is_approved", data=df, ax=ax[1])
+    st.pyplot(fig)
