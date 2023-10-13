@@ -28,6 +28,9 @@ options = st.selectbox(
         "flipLR",
         "flip270",
         "Black and White",
+        "Filter sharper",
+        "Filter edge",
+        "Contrast Image",
     ],
 )
 
@@ -68,4 +71,13 @@ elif options == "flip270":
 
 elif options == "Black and White":
     image = image.convert("1")
+    ploting()
+elif options == "Filter sharper":
+    image = image.filter(ImageFilter.SHARPEN)
+    ploting()
+elif options == "Filter edge":
+    image = image.filter(ImageFilter.EDGE_ENHANCE)
+    ploting()
+elif options == "Contrast Image":
+    image = ImageEnhance.Contrast(image).enhance(1.2)
     ploting()
