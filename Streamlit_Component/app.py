@@ -16,20 +16,28 @@ authenticator = stauth.Authenticate(
     config["preauthorized"],
 )
 
+##how to keep this login page active##
+
+st.write("this is something")
+
 
 def loginME():
-    authenticator.login("Login", "main")
+    status = authenticator.login("Login", "main")
+    st.write(status[1])
+    if status[1] == True:
+        st.balloons()
+    st.write(status)
 
 
-# def LogMeOut():
-#     if st.session_state["authentication_status"]:
-#         authenticator.logout("Logout", "main", key="121")
-#         st.write(f'Welcome *{st.session_state["name"]}*')
-#         st.title("Some content")
-#     elif st.session_state["authentication_status"] is False:
-#         st.error("Username/password is incorrect")
-#     elif st.session_state["authentication_status"] is None:
-#         st.warning("Please enter your username and password")
+def LogMeOut():
+    if st.session_state["authentication_status"]:
+        authenticator.logout("Logout", "main", key="121")
+        st.write(f'Welcome *{st.session_state["name"]}*')
+        st.title("Some content")
+    elif st.session_state["authentication_status"] is False:
+        st.error("Username/password is incorrect")
+    elif st.session_state["authentication_status"] is None:
+        st.warning("Please enter your username and password")
 
 
 def ChangeMyPassword():
@@ -68,7 +76,7 @@ def ForgotPassword():
 
 
 b0 = st.button("Login me", on_click=loginME)
-# st.button("Login me", on_click=LogMeOut)
+b00 = st.button("Log Me Out", on_click=LogMeOut)
 b1 = st.button("Change Password", on_click=ChangeMyPassword)
 b2 = st.button("Register Me", on_click=RegisterMe)
 b3 = st.button("Forgot Password", on_click=ForgotPassword)
