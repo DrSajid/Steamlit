@@ -1,5 +1,5 @@
 from loadData import *
-import altair as alt
+
 
 
 def vegalite():
@@ -135,5 +135,79 @@ def Area_plot():
             .properties(width=650, height=500)
             .interactive()
         )
+
+    st.altair_chart(chart)
+
+
+def Scatter_Matrics():
+    chart = (
+        alt.Chart(df)
+        .mark_circle()
+        .encode(
+            alt.X(alt.repeat("column"), type="quantitative"),
+            alt.Y(alt.repeat("row"), type="quantitative"),
+            color="published_day",
+        )
+        .properties(width=150, height=150)
+        .repeat(
+            row=["duration", "views", "comments"],
+            column=["comments", "views", "duration"],
+        )
+        .interactive()
+    )
+    st.altair_chart(chart)
+
+
+def ScatterPlot_links():
+    chart = (
+        alt.Chart(df)
+        .mark_point()
+        .encode(
+            x="duration",
+            y="comments",
+            color="published_month",
+            href="url:N",
+            tooltip=["event", "url:N"],
+        )
+        .interactive()
+        .properties(width=650, height=500)
+        .configure_legend(
+            strokeColor="Xea4663",
+            fillColor="#EEEEEE",
+            padding=10,
+            cornerRadius=10,
+            orient="top-right",
+        )
+    )
+    st.altair_chart(chart)
+
+
+def HeatMap():
+    chart = (
+        alt.Chart(df)
+        .mark_rect()
+        .encode(
+            x="published_year:O",
+            y="published_day",
+            color="languages",
+            tooltip=["languages", "published_day"],
+        )
+        .interactive()
+        .properties(width=650, height=500)
+    )
+    st.altair_chart(chart)
+
+
+def BarChart_H():
+    bar_data = df.sort_values(by="views", ascending=False)
+    bar_data = bar_data.head(20)
+
+    chart = (
+        alt.Chart(bar_data)
+        .mark_bar()
+        .encode(x="views", y="event", href="url:N")
+        .properties(width=650, height=500)
+        .interactive()
+    )
 
     st.altair_chart(chart)
