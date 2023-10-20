@@ -8,7 +8,22 @@ from plotData import *
 def main():
     page = st.sidebar.selectbox(
         "Select Page",
-        ["data", "Vaga lite", "Line Plot", "Bar chart", "Scatter plot", "Area Plot", "Scatter Matrics", "ScatterPlot_links", "HeatMap", "BarChart_H"],
+        [
+            "data",
+            "Vaga lite",
+            "Line Plot",
+            "Bar chart",
+            "Scatter plot",
+            "Area Plot",
+            "Scatter Matrics",
+            "ScatterPlot_links",
+            "HeatMap",
+            "BarChart_H",
+            "StackedBarChart",
+            "StackedBarChart",
+            "Normalized_StackedBarChart",
+            "Normalized_SBarChart_text",
+        ],
     )
     if page == "data":
         st.write(df.head(10))
@@ -39,6 +54,18 @@ def main():
     elif page == "BarChart_H":
         st.header("BarChart_H")
         BarChart_H()
+    elif page == "GroupBartChart":
+        st.header("GroupBartChart")
+        GroupBartChart()
+    elif page == "StackedBarChart":
+        st.header("StackedBarChart")
+        StackedBarChart()
+    elif page == "Normalized_StackedBarChart":
+        st.header("Normalized_StackedBarChart")
+        Normalized_StackedBarChart()
+    elif page == "Normalized_SBarChart_text":
+        st.header("Normalized_SBarChart_text")
+        Normalized_SBarChart_text()
 
 if __name__ == "__main__":
     main()

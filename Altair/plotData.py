@@ -1,7 +1,6 @@
 from loadData import *
 
 
-
 def vegalite():
     st.vega_lite_chart(
         df,
@@ -211,3 +210,123 @@ def BarChart_H():
     )
 
     st.altair_chart(chart)
+
+
+def GroupBartChart():
+    dff = df[(df["published_day"] == "Monday") | (df["published_day"] == "Tuesday")]
+    toggle = st.checkbox("Toggle Horizontal")
+    if toggle:
+        chart = (
+            alt.Chart(dff)
+            .mark_bar()
+            .encode(
+                x="published_year:O",
+                y=alt.Y("sum(views):Q", title="Sum of Views"),
+                color="published_year:N",
+                column="published_day",
+            )
+            .properties(width=650, height=500)
+        )
+    else:
+        chart = (
+            alt.Chart(dff)
+            .mark_bar()
+            .encode(
+                y="published_year:O",
+                x=alt.Y("sum(views):Q", title="Sum of Views"),
+                color="published_year:N",
+                column="published_day",
+            )
+            .properties(width=650, height=500)
+        )
+
+    st.altair_chart(chart)
+
+
+def StackedBarChart():
+    toggle = st.checkbox("Horizontal display")
+
+    if toggle:
+        chart = (
+            alt.Chart(df)
+            .mark_bar()
+            .encode(
+                y="published_year:O",
+                x=alt.X("sum(views)"),
+                color="published_day",
+                tooltip=["sum(views)"],
+            )
+            .properties(width=650, height=500)
+            .interactive()
+        )
+    else:
+        chart = (
+            alt.Chart(df)
+            .mark_bar()
+            .encode(
+                x="published_year:O",
+                y=alt.Y("sum(views)"),
+                color="published_day",
+                tooltip=["sum(views)"],
+            )
+            .properties(width=650, height=500)
+            .interactive()
+        )
+    st.altair_chart(chart)
+
+
+def Normalized_StackedBarChart():
+    toggle = st.checkbox("toggle direction")
+    if toggle:
+        chart = (
+            alt.Chart(df)
+            .mark_bar()
+            .encode(
+                x=alt.X("mean(views)", stack="normalize"),
+                y="published_year:O",
+                color="published_day",
+                tooltip=["mean(views)", "published_day"],
+            )
+            .properties(width=650, height=500)
+            .interactive()
+        )
+    else:
+        chart = (
+            alt.Chart(df)
+            .mark_bar()
+            .encode(
+                y=alt.Y("mean(views)", stack="normalize"),
+                x="published_year:O",
+                color="published_day",
+                tooltip=["mean(views)", "published_day"],
+            )
+            .properties(width=650, height=500)
+            .interactive()
+        )
+    st.altair_chart(chart)
+
+
+def Normalized_SBarChart_text():
+    text = (
+        alt.Chart(df)
+        .mark_text(dx=-10, color="white")
+        .encode(
+            x=alt.X("sum(num_speaker):Q", stack="normalize"),
+            y="published_year:O",
+            detail="published_day",
+            text=alt.Text("sum(num_speaker):Q", format=".1f"),
+        )
+    )
+    chart = (
+        alt.Chart(df)
+        .mark_bar()
+        .encode(
+            x=alt.X("sum(num_speaker):Q", stack="normalize"),
+            y="published_year:O",
+            color="published_day",
+            tooltip=["sum(num_speaker):Q", "published_day"],
+        )
+        .properties(width=650, height=500)
+        .interactive()
+    )
+    st.altair_chart(chart + text)
