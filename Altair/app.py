@@ -23,6 +23,13 @@ def main():
             "StackedBarChart",
             "Normalized_StackedBarChart",
             "Normalized_SBarChart_text",
+            "boxPlot",
+            "Interactive Legend",
+            "concatenated_legend",
+            "dualY_axis",
+            "concatenated_plot",
+            "concatenated_plot_V",
+            "Interactive_selection",
         ],
     )
     if page == "data":
@@ -66,6 +73,28 @@ def main():
     elif page == "Normalized_SBarChart_text":
         st.header("Normalized_SBarChart_text")
         Normalized_SBarChart_text()
+    elif page == "boxPlot":
+        st.header("boxPlot")
+        boxPlot()
+    elif page == "Interactive Legend":
+        st.header("Interactive Legend")
+        Interactive_Legend()
+    elif page == "concatenated_legend":
+        st.header("concatenated_legend")
+        concatenated_legend()
+    elif page == "dualY_axis":
+        st.header("dualY_axis")
+        dualY_axis()
+    elif page == "concatenated_plot":
+        st.header("concatenated_plot")
+        concatenated_plot()
+    elif page == "concatenated_plot_V":
+        st.header("concatenated_plot_V")
+        concatenated_plot_V()
+    elif page == "Interactive_selection":
+        st.header("Interactive_selection")
+        Interactive_selection()
+
 
 if __name__ == "__main__":
     main()

@@ -330,3 +330,128 @@ def Normalized_SBarChart_text():
         .interactive()
     )
     st.altair_chart(chart + text)
+
+
+def boxPlot():
+    chart = (
+        alt.Chart(df)
+        .mark_boxplot()
+        .encode(x="published_year:O", y="duration")
+        .interactive()
+        .properties(width=650, height=500)
+    )
+    st.altair_chart(chart)
+
+
+def Interactive_Legend():
+    text = (
+        alt.Chart(df)
+        .mark_text(dx=-10, color="white")
+        .encode(
+            x=alt.X("sum(num_speaker):Q", stack="normalize"),
+            y="published_year:O",
+            detail="published_day",
+            text=alt.Text("sum(num_speaker):Q", format=".1f"),
+        )
+    )
+    selection = alt.selection_multi(fields=["published_day"], bind="legend")
+    chart = (
+        alt.Chart(df)
+        .mark_bar()
+        .encode(
+            x=alt.X("sum(num_speaker):Q", stack="normalize"),
+            y="published_year:O",
+            opacity=alt.condition(selection, alt.value(1), alt.value(0.2)),
+            color="published_day",
+            tooltip=["sum(num_speaker):Q", "published_day"],
+        )
+        .properties(width=650, height=500)
+        .interactive()
+        .add_selection(selection)
+    )
+    st.altair_chart(chart + text)
+
+
+def concatenated_legend():
+    scatter = (
+        alt.Chart(df)
+        .mark_point()
+        .encode(x="duration", y="views:Q")
+        .properties(width=250, height=250)
+    )
+
+    chart = alt.concat(
+        scatter.encode(color="published_month"),
+        scatter.encode(color="published_day"),
+        columns=2,
+    ).resolve_scale(color="independent")
+    st.altair_chart(chart)
+
+
+def dualY_axis():
+    base = alt.Chart(df).encode(alt.X("year(published_date):T"))
+    line_A = base.mark_line(color="#ea4663").encode(
+        alt.Y("average(views)", axis=alt.Axis(titleColor="#ea4663"))
+    )
+    line_B = base.mark_line(color="#1a9988").encode(
+        alt.Y("average(comments)", axis=alt.Axis(titleColor="#1a9988"))
+    )
+    chart = (
+        alt.layer(line_A, line_B)
+        .resolve_scale(y="independent")
+        .properties(width=700, height=400)
+    )
+
+    st.altair_chart(chart)
+
+
+def concatenated_plot():
+    scatter1 = (
+        alt.Chart(df)
+        .mark_point()
+        .encode(y="views:Q", color="published_month")
+        .properties(width=250, height=250)
+    )
+    chart = alt.concat(
+        scatter1.encode(x="duration"),
+        scatter1.encode(x="languages"),
+        columns=2,
+    ).interactive()
+    st.altair_chart(chart)
+
+
+def concatenated_plot_V():
+    base = (
+        alt.Chart(df)
+        .mark_area()
+        .encode(x="published_date", y="languages")
+        .properties(width=600, height=200)
+    )
+
+    brush = alt.selection(type="interval", encodings=["x"])
+    upper = base.encode(x=alt.X("published_date", scale=alt.Scale(domain=brush)))
+    lower = base.properties(width=600, height=200).add_selection(brush)
+    # # chart = alt.concat(
+    # #     upper,
+    # #     lower,
+    # #     columns=1,
+    # # ).interactive()
+    chart = alt.vconcat(upper, lower)
+
+    st.altair_chart(chart)
+
+
+def Interactive_selection():
+    brush = alt.selection_interval()
+    chart = (
+        alt.Chart(df)
+        .mark_point()
+        .encode(
+            x="languages:Q",
+            y="views:Q",
+            color=alt.condition(brush, "languages:Q", alt.value("gray")),
+        )
+        .properties(width=600, height=500)
+        .add_params(brush)
+    )
+    st.altair_chart(chart)
