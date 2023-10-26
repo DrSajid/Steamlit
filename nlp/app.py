@@ -25,14 +25,12 @@ elif option == "Question Answering":
     if context and question:
         answer = q_a({"question": question, "context": context})
         st.write(answer)
-
 elif option == "Text generation":
     text = st.text_area(label="Enter context")
     if text:
         text_generator = pipeline("text-generation")
         answer = text_generator(text)
         st.write(answer)
-
 elif option == "Recognistion":
     text = st.text_area(label="Enter text")
     if text:
